@@ -26,7 +26,7 @@
 			<!-- //admin-menu -->
 
 			<div id="admin-content">
-				<form action="" method="post">
+				<form action="basic/update" method="post">
 					<table id="admin-basic">
 						<colgroup>
 							<col style="width: 100px;">
@@ -42,7 +42,7 @@
 						</tr>
 						<tr>
 							<td>&nbsp;</td>
-							<td><input id="textLogo" type="file" name="file"></td>
+							<td><input id="textLogo" type="file" name="logoFile"></td>
 						</tr>
 					</table>
 					<div id="btnArea">

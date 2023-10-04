@@ -3,11 +3,13 @@ package com.javaex.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.javaex.service.BlogService;
 import com.javaex.vo.BlogVo;
+import com.javaex.vo.UserVo;
 
 @Controller
 public class BlogController {
@@ -32,11 +34,12 @@ public class BlogController {
 	}
 	
 	@RequestMapping("/{id}/admin/basic/update")
-	public String update(@PathVariable("id") String id, Model model) {
+	public String update(@ModelAttribute BlogVo blogVo) {
 		System.out.println("블로그 업데이트");
-		BlogVo blogVo = blogService.blogSelect(id);
-		model.addAttribute("blogVo", blogVo);
-		return "blog/admin/blog-admin-basic";
+		System.out.println(blogVo);
+		//blogService.blogUpdate(blogVo);
+		
+		return "redirect:/{id}/admin/basic";
 	}
 	
 	
