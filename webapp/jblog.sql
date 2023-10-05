@@ -1,11 +1,21 @@
 --------------------------------------------------------
---  파일이 생성됨 - 수요일-10월-04-2023   
+--  파일이 생성됨 - 목요일-10월-05-2023   
 --------------------------------------------------------
+--------------------------------------------------------
+--  DDL for Sequence SEQ_CATEGORY_NO
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "JBLOG"."SEQ_CATEGORY_NO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 35 NOCACHE  NOORDER  NOCYCLE ;
+--------------------------------------------------------
+--  DDL for Sequence SEQ_POST_NO
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "JBLOG"."SEQ_POST_NO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  NOORDER  NOCYCLE ;
 --------------------------------------------------------
 --  DDL for Sequence SEQ_USERS_NO
 --------------------------------------------------------
 
-   CREATE SEQUENCE  "JBLOG"."SEQ_USERS_NO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 6 NOCACHE  NOORDER  NOCYCLE ;
+   CREATE SEQUENCE  "JBLOG"."SEQ_USERS_NO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 13 NOCACHE  NOORDER  NOCYCLE ;
 --------------------------------------------------------
 --  DDL for Table BLOG
 --------------------------------------------------------
@@ -14,6 +24,36 @@
    (	"ID" VARCHAR2(50 BYTE), 
 	"BLOGTITLE" VARCHAR2(200 BYTE), 
 	"LOGOFILE" VARCHAR2(200 BYTE)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Table CATEGORY
+--------------------------------------------------------
+
+  CREATE TABLE "JBLOG"."CATEGORY" 
+   (	"CATENO" NUMBER, 
+	"ID" VARCHAR2(50 BYTE), 
+	"CATENAME" VARCHAR2(200 BYTE), 
+	"DESCRIPTION" VARCHAR2(500 BYTE), 
+	"REGDATE" DATE
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Table POST
+--------------------------------------------------------
+
+  CREATE TABLE "JBLOG"."POST" 
+   (	"POSTNO" NUMBER, 
+	"CATENO" NUMBER, 
+	"POSTTITLE" VARCHAR2(300 BYTE), 
+	"POSTCONTENT" VARCHAR2(4000 BYTE), 
+	"REGDATE" DATE
    ) SEGMENT CREATION IMMEDIATE 
   PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
   STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
@@ -36,12 +76,51 @@
   TABLESPACE "SYSTEM" ;
 REM INSERTING into JBLOG.BLOG
 SET DEFINE OFF;
-Insert into JBLOG.BLOG (ID,BLOGTITLE,LOGOFILE) values ('침착맨','이병건의 블로그입니다.',null);
+Insert into JBLOG.BLOG (ID,BLOGTITLE,LOGOFILE) values ('침착맨','내맘대로 블로그23','1696503571813596e56e4-2e2a-4d97-9879-f8c70910edff.jpg');
 Insert into JBLOG.BLOG (ID,BLOGTITLE,LOGOFILE) values ('손또끼','손성진의 블로그입니다.',null);
+Insert into JBLOG.BLOG (ID,BLOGTITLE,LOGOFILE) values ('아이유','이지은의 블로그입니다.','169648724664502669d94-f00d-41fa-a460-9db4be8ff9ff.jpg');
+Insert into JBLOG.BLOG (ID,BLOGTITLE,LOGOFILE) values ('우왁굳','오영택의 블로그입니다.',null);
+Insert into JBLOG.BLOG (ID,BLOGTITLE,LOGOFILE) values ('하만카돈','차정원의 블로그입니다.','spring-logo.jpg');
+Insert into JBLOG.BLOG (ID,BLOGTITLE,LOGOFILE) values ('aaa','aaa의 블로그입니다.','spring-logo.jpg');
+REM INSERTING into JBLOG.CATEGORY
+SET DEFINE OFF;
+Insert into JBLOG.CATEGORY (CATENO,ID,CATENAME,DESCRIPTION,REGDATE) values (1,'아이유','정규엘범','1',to_date('23/10/05','RR/MM/DD'));
+Insert into JBLOG.CATEGORY (CATENO,ID,CATENAME,DESCRIPTION,REGDATE) values (2,'아이유','손성진','5',to_date('23/10/05','RR/MM/DD'));
+Insert into JBLOG.CATEGORY (CATENO,ID,CATENAME,DESCRIPTION,REGDATE) values (34,'침착맨','손손손','d',to_date('23/10/05','RR/MM/DD'));
+Insert into JBLOG.CATEGORY (CATENO,ID,CATENAME,DESCRIPTION,REGDATE) values (4,'침착맨','손성진','d',to_date('23/10/05','RR/MM/DD'));
+Insert into JBLOG.CATEGORY (CATENO,ID,CATENAME,DESCRIPTION,REGDATE) values (18,'aaa','손성진','d',to_date('23/10/05','RR/MM/DD'));
+REM INSERTING into JBLOG.POST
+SET DEFINE OFF;
 REM INSERTING into JBLOG.USERS
 SET DEFINE OFF;
+Insert into JBLOG.USERS (USERNO,ID,USERNAME,PASSWORD,JOINDATE) values (6,'아이유','이지은','1234',to_date('23/10/05','RR/MM/DD'));
+Insert into JBLOG.USERS (USERNO,ID,USERNAME,PASSWORD,JOINDATE) values (7,'우왁굳','오영택','1234',to_date('23/10/05','RR/MM/DD'));
+Insert into JBLOG.USERS (USERNO,ID,USERNAME,PASSWORD,JOINDATE) values (8,'카더가든','차정원','1234',to_date('23/10/05','RR/MM/DD'));
 Insert into JBLOG.USERS (USERNO,ID,USERNAME,PASSWORD,JOINDATE) values (4,'침착맨','이병건','1234',to_date('23/10/04','RR/MM/DD'));
 Insert into JBLOG.USERS (USERNO,ID,USERNAME,PASSWORD,JOINDATE) values (5,'손또끼','손성진','1234',to_date('23/10/04','RR/MM/DD'));
+Insert into JBLOG.USERS (USERNO,ID,USERNAME,PASSWORD,JOINDATE) values (11,'하만카돈','차정원','1234',to_date('23/10/05','RR/MM/DD'));
+Insert into JBLOG.USERS (USERNO,ID,USERNAME,PASSWORD,JOINDATE) values (12,'aaa','aaa','1234',to_date('23/10/05','RR/MM/DD'));
+--------------------------------------------------------
+--  Constraints for Table CATEGORY
+--------------------------------------------------------
+
+  ALTER TABLE "JBLOG"."CATEGORY" ADD PRIMARY KEY ("CATENO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM"  ENABLE;
+  ALTER TABLE "JBLOG"."CATEGORY" MODIFY ("CATENAME" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table POST
+--------------------------------------------------------
+
+  ALTER TABLE "JBLOG"."POST" ADD PRIMARY KEY ("POSTNO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM"  ENABLE;
+  ALTER TABLE "JBLOG"."POST" MODIFY ("REGDATE" NOT NULL ENABLE);
+  ALTER TABLE "JBLOG"."POST" MODIFY ("POSTTITLE" NOT NULL ENABLE);
 --------------------------------------------------------
 --  Constraints for Table USERS
 --------------------------------------------------------
@@ -75,3 +154,15 @@ Insert into JBLOG.USERS (USERNO,ID,USERNAME,PASSWORD,JOINDATE) values (5,'손또
 
   ALTER TABLE "JBLOG"."BLOG" ADD CONSTRAINT "BLOG_ID" FOREIGN KEY ("ID")
 	  REFERENCES "JBLOG"."USERS" ("ID") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table CATEGORY
+--------------------------------------------------------
+
+  ALTER TABLE "JBLOG"."CATEGORY" ADD CONSTRAINT "CATE_ID" FOREIGN KEY ("ID")
+	  REFERENCES "JBLOG"."BLOG" ("ID") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table POST
+--------------------------------------------------------
+
+  ALTER TABLE "JBLOG"."POST" ADD CONSTRAINT "POST_NO" FOREIGN KEY ("CATENO")
+	  REFERENCES "JBLOG"."CATEGORY" ("CATENO") ENABLE;
