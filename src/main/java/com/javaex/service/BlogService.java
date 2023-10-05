@@ -104,5 +104,10 @@ public class BlogService {
 		System.out.println("서비스 카테고리 등록");
 		blogDao.cateInsert(categoryVo);
 	}
+	
+	public void cateDelete(CategoryVo categoryVo) {
+		System.out.println("서비스 카테고리 삭제");
+		blogDao.cateDelete(categoryVo);
+	}
 
 }

@@ -85,7 +85,21 @@ public class BlogController {
 		return categoryVo;
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("/{id}/admin/delete")
+	public CategoryVo cateDelete(@RequestBody int cateNo,HttpSession session) {
+		System.out.println("blog cateDelete");
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		System.out.println(cateNo);		
+		
+		CategoryVo categoryVo = new CategoryVo();
+		categoryVo.setCateNo(cateNo);
+		categoryVo.setId(authUser.getId());		
+		System.out.println(categoryVo);
+		blogService.cateDelete(categoryVo);
+		
+		return categoryVo;
+	}
 	
 	
 	

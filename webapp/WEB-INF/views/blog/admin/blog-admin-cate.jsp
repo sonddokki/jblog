@@ -103,6 +103,7 @@
 		console.log("load()요청후");
 	});
 
+	
 	$("#btnAddCate").on("click", function(e) {
 		e.preventDefault(); 
 		console.log("카테고리추가버튼 클릭");		
@@ -139,26 +140,49 @@
 	});
 	
 	//삭제버튼 눌렀을때
-	$("#btnCateDel").on("click", ".btnDelForm", function(){
+	$("#cateList").on("click", ".btnCateDel", function(){
 		console.log("삭제버튼 클릭");
 		
-		let cateNo = window.prompt("비빌번호를 입력하세요");
+		let $this = $(this);		
+		console.log($this);
 		
-		console.log(password);
+		let cateNo = $this.data("no");		
+		console.log(cateNo);
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/${blogVo.id}/admin/delete",
+			type : "post",
+			contentType : "application/json",
+			data : JSON.stringify(cateNo),
+			
+			dataType : "json",
+			success : function(result) {
+				/*성공시 처리해야될 코드 작성*/	
+				console.log(result);
+				
+				//그리기
+				//document.location.reload(true);
+				$("#t"+cateNo).remove();
+				
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}				
+		});		
 		
 		//패스워드, no
 		//(event)=>
 		//console.log($(event.target));
 		
-		let $this = $(this);
-		let no = $this.data("no");
-		console.log($this);
+		//let $this = $(this);
+		//let no = $this.data("no");
+		//console.log($this);
 		
 		//ajax 요청 db를지운다
 		//과제
 		
 		//화면에서 지운다
-		$("#t"+no).remove();
+		//$("#t"+no).remove();  < --------------------------- 이거 사용하기
 		
 	});
 	
@@ -192,7 +216,7 @@
 	//방명록 내용을 1개씩 그린다
 	function render(categoryVo, dir){
 		let str ='';
-		str +='<tr>';
+		str +='<tr id=t'+categoryVo.cateNo +'>';
 		str +='		<td>' + categoryVo.num + '</td>';
 		str +='		<td>' + categoryVo.cateName + '</td>';
 		str +='		<td>' + categoryVo.num + '</td>'; // 포스트수로 변경하기

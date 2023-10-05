@@ -44,5 +44,10 @@ public class BlogDao {
 		System.out.println("다오 카테고리 등록");
 		sqlSession.insert( "cateInsert", categoryVo);
 	}
+	
+	public void cateDelete(CategoryVo categoryVo) {
+		System.out.println("다오 카테고리 삭제");
+		sqlSession.delete( "cateDelete", categoryVo);
+	}
 
 }

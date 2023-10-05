@@ -78,7 +78,13 @@
 		 ]]>
 	</insert>
 	
-	
+	<delete id="cateDelete" parameterType="com.javaex.vo.CategoryVo">  
+		 <![CDATA[
+	     DELETE FROM category 
+	     WHERE id = #{id}
+		 and cateNo = #{cateNo}
+		 ]]>
+	</delete>
 
 </mapper>
 	
