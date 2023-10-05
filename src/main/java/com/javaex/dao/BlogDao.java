@@ -24,5 +24,11 @@ public class BlogDao {
 		System.out.println("다오 블로그정보");	
 		return sqlSession.selectOne("blogSelect", id);		
 	}
+	
+	public void blogUpdate(BlogVo blogVo) {
+		System.out.println("다오 블로그업데이트");			
+		System.out.println(blogVo);
+		sqlSession.update("blogUpdate", blogVo);		
+	}
 
 }

@@ -17,13 +17,15 @@ public class BlogVo {
 		this.blogTitle = blogTitle;
 		this.logoFile = logoFile;
 	}
+		
 
-	public BlogVo(String id, String blogTitle, String logoFile) {
+	public BlogVo(String id, String userName, String blogTitle) {
 		super();
 		this.id = id;
+		this.userName = userName;
 		this.blogTitle = blogTitle;
-		this.logoFile = logoFile;
 	}
+
 
 	public String getId() {
 		return id;
