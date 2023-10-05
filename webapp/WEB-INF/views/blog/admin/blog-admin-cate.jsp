@@ -161,8 +161,8 @@
 				console.log(result);
 				
 				//그리기
-				//document.location.reload(true);
-				$("#t"+cateNo).remove();
+				document.location.reload(true); // 카테고리 번호순서를 리셋하려면 결국 리로드 해줘야함
+				//$("#t"+cateNo).remove(); // 바로 화면에서만 지우면 중간번호가 생략될 수 있음
 				
 			},
 			error : function(XHR, status, error) {
