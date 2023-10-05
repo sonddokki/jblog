@@ -39,6 +39,7 @@ public class UserController {
 		String name = userVo.getUserName();
 		blogVo.setId(id);
 		blogVo.setBlogTitle(name+"의 블로그입니다.");
+		blogVo.setLogoFile("spring-logo.jpg");	
 		blogService.blogInsert(blogVo);
 		
 		return "user/joinSuccess";

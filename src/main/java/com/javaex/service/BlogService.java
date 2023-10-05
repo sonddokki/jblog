@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.javaex.dao.BlogDao;
 import com.javaex.vo.BlogVo;
+import com.javaex.vo.CategoryVo;
 
 @Service
 public class BlogService {
@@ -89,8 +91,18 @@ public class BlogService {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		}	
 
+	}
+	
+	public List<CategoryVo> categoryList(String id) {
+		System.out.println("서비스 리스트");
+		return blogDao.categoryList(id);
+	}
+	
+	public void cateInsert(CategoryVo categoryVo) {
+		System.out.println("서비스 카테고리 등록");
+		blogDao.cateInsert(categoryVo);
 	}
 
 }

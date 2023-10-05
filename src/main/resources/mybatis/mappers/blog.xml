@@ -35,6 +35,50 @@
 			where id = #{id}
 		 ]]>
 	</update>
+	
+	<!-- 카테고리  -->
+	
+	<select id="categoryList" parameterType="String" resultType="com.javaex.vo.CategoryVo" >  
+		  <![CDATA[        
+		   SELECT    ctr.rn as num
+			        ,ctr.cateNo
+			        ,ctr.id
+			        ,ctr.catename
+			        ,ctr.description
+			        ,ctr.regdate
+			FROM  (SELECT rownum rn
+			               ,ct.cateNo
+			               ,ct.id
+			               ,ct.catename
+			               ,ct.description
+			               ,ct.regdate    
+			        FROM  (SELECT   c.cateNo
+			                        ,c.id
+			                        ,c.catename
+			                        ,c.description
+			                        ,c.regdate
+			                FROM  blog b,category c
+			                where b.id = c.id
+			                and b.id = #{id}
+			                ORDER BY c.cateno asc) ct) ctr
+		 ]]>
+	</select>
+	
+	
+	
+	
+	<insert id="cateInsert" parameterType="com.javaex.vo.CategoryVo">  
+		 <![CDATA[
+	     INSERT INTO category
+	     VALUES (seq_category_no.nextval
+	     		 ,#{id}
+	             ,#{cateName}
+	             ,#{description}
+	             ,SYSDATE )
+		 ]]>
+	</insert>
+	
+	
 
 </mapper>
 	

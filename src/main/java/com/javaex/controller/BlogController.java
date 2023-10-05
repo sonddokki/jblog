@@ -1,18 +1,23 @@
 package com.javaex.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.javaex.service.BlogService;
 import com.javaex.vo.BlogVo;
+import com.javaex.vo.CategoryVo;
 import com.javaex.vo.UserVo;
 
 @Controller
@@ -50,7 +55,7 @@ public class BlogController {
 		return "redirect:/{id}/admin/basic";
 	}	
 	
-	// 블로그 카테고리설정 /////////////////////////////////////////////////
+	// 블로그 카테고리설정 /////////////////////////////////////////////////	
 	@RequestMapping("/{id}/admin/cate")
 	public String cate(@PathVariable("id") String id, Model model) {
 		System.out.println("blog cate");
@@ -59,17 +64,27 @@ public class BlogController {
 		return "blog/admin/blog-admin-cate";
 	}
 	
-	@RequestMapping("/{id}/admin/cate2")
-	public String cate2(@PathVariable("id") String id, Model model) {
-		System.out.println("blog cate2");
-		BlogVo blogVo = blogService.blogSelect(id);
-		model.addAttribute("blogVo", blogVo);
-		
-		
-		
-		
-		return "blog/admin/blog-admin-cate";
+	@ResponseBody
+	@RequestMapping("/{id}/admin/list")
+	public  List<CategoryVo> list(@PathVariable("id") String id) {
+		System.out.println("blog list");
+		System.out.println(id);
+		List<CategoryVo> categoryList = blogService.categoryList(id);
+		System.out.println(categoryList);
+		return categoryList;
+	}	
+	
+	@ResponseBody
+	@RequestMapping("/{id}/admin/cateInsert")
+	public CategoryVo cateInsert(@RequestBody CategoryVo categoryVo,HttpSession session) {
+		System.out.println("blog cateInsert");
+		UserVo authUser = (UserVo) session.getAttribute("authUser");		
+		categoryVo.setId(authUser.getId());
+		System.out.println(categoryVo);		
+		blogService.cateInsert(categoryVo);
+		return categoryVo;
 	}
+	
 	
 	
 	

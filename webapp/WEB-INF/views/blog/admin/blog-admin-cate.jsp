@@ -51,21 +51,6 @@
 					</thead>
 					<tbody id="cateList">
 						<!-- 리스트 영역 -->
-						<tr>
-							<td>1</td>
-							<td>자바프로그래밍</td>
-							<td>7</td>
-							<td>자바기초와 객체지향</td>
-							<td class='text-center'><img class="btnCateDel" src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>오라클</td>
-							<td>5</td>
-							<td>오라클 설치와 sql문</td>
-							<td class='text-center'><img class="btnCateDel" src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-						</tr>
-						<!-- 리스트 영역 -->
 					</tbody>
 				</table>
 
@@ -104,18 +89,130 @@
 
 <script type="text/javascript">
 
-	$("#btnAddCate").on("click", function() {
-		event.preventDefault();
-		console.log("카테고리추가버튼 클릭");
-		
-		let name = $("#input-name").val();
-		let desc = $("#input-desc").val();
+	//DOM이 완성되었을때 --> 그리기 직전
+	$(document).ready(function(){
+		console.log("ready()");
+	    fetchList(); //ajax통신을 이용해서 데이타를 요청하고 + 그린다(render())
+		console.log("ready()요청후");
+	});
+	
+	//화면을 그리고 난후
+	$(window).load(function(){
+		console.log("load()");
+		//fetchList();	
+		console.log("load()요청후");
+	});
 
+	$("#btnAddCate").on("click", function(e) {
+		e.preventDefault(); 
+		console.log("카테고리추가버튼 클릭");		
+		// 데이터 수집
+		let categoryVo = {
+			cateName: $("#input-name").val(),
+			description: $("#input-desc").val()
+		}
+		console.log(categoryVo);		
 		
-		console.log(name);
-		console.log(desc);
+		$.ajax({
+			url : "${pageContext.request.contextPath}/${blogVo.id}/admin/cateInsert",
+			type : "post",
+			contentType : "application/json",
+			data : JSON.stringify(categoryVo),
+			
+			dataType : "json",
+			success : function(result) {
+				/*성공시 처리해야될 코드 작성*/	
+				console.log(result);
+				
+				//그리기
+				document.location.reload(true);
+				
+				//초기화
+				$("#input-name").val("");
+				$("#input-desc").val("");
+				
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}				
+		});		
+	});
+	
+	//삭제버튼 눌렀을때
+	$("#btnCateDel").on("click", ".btnDelForm", function(){
+		console.log("삭제버튼 클릭");
+		
+		let cateNo = window.prompt("비빌번호를 입력하세요");
+		
+		console.log(password);
+		
+		//패스워드, no
+		//(event)=>
+		//console.log($(event.target));
+		
+		let $this = $(this);
+		let no = $this.data("no");
+		console.log($this);
+		
+		//ajax 요청 db를지운다
+		//과제
+		
+		//화면에서 지운다
+		$("#t"+no).remove();
 		
 	});
+	
+	//ajax통신을 이용해서 데이타를 요청하고 + 그린다(render())
+	function fetchList(){
+		
+		//서버로 부터 방명록 데이타만 받고 싶다 ajax요청
+		$.ajax({
+			url : "${pageContext.request.contextPath}/${blogVo.id}/admin/list",		
+			type : "get",
+			
+			dataType : "json",
+			success : function(categoryList){
+				/*성공시 처리해야될 코드 작성*/
+				//리스트받기
+				console.log(categoryList);
+				
+				for(let i=0; i<categoryList.length; i++){
+					render(categoryList[i], "down"); //그리기	
+				}
+				
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+
+	}
+		
+		
+	//방명록 내용을 1개씩 그린다
+	function render(categoryVo, dir){
+		let str ='';
+		str +='<tr>';
+		str +='		<td>' + categoryVo.num + '</td>';
+		str +='		<td>' + categoryVo.cateName + '</td>';
+		str +='		<td>' + categoryVo.num + '</td>'; // 포스트수로 변경하기
+		str +='		<td>' + categoryVo.description + '</td>';
+		str +='		<td class="text-center"><img class="btnCateDel" data-no='+ categoryVo.cateNo +' src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>';
+		str +='</tr>';		
+		
+		if(dir=="up"){
+			$("#cateList").prepend(str);
+			
+		}else if(dir=="down"){
+			$("#cateList").append(str);	
+		
+		}else {
+			consoel.log("잘못입력")
+		}
+		
+		
+	}
+	
 	
 </script>
 
