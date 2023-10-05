@@ -20,7 +20,8 @@ public class BlogController {
 
 	@Autowired
 	BlogService blogService;
-
+	
+	// 블로그 메인 /////////////////////////////////////////////////
 	@RequestMapping("/{id}")
 	public String blogMain(@PathVariable("id") String id, Model model) {
 		System.out.println("blogMain");
@@ -28,7 +29,8 @@ public class BlogController {
 		model.addAttribute("blogVo", blogVo);
 		return "blog/blog-main";
 	}
-
+	
+	// 블로그 기본설정 /////////////////////////////////////////////////
 	@RequestMapping("/{id}/admin/basic")
 	public String basic(@PathVariable("id") String id, Model model) {
 		System.out.println("블로그 기본설정");
@@ -48,6 +50,7 @@ public class BlogController {
 		return "redirect:/{id}/admin/basic";
 	}	
 	
+	// 블로그 카테고리설정 /////////////////////////////////////////////////
 	@RequestMapping("/{id}/admin/cate")
 	public String cate(@PathVariable("id") String id, Model model) {
 		System.out.println("blog cate");
@@ -55,7 +58,23 @@ public class BlogController {
 		model.addAttribute("blogVo", blogVo);
 		return "blog/admin/blog-admin-cate";
 	}
-
+	
+	@RequestMapping("/{id}/admin/cate2")
+	public String cate2(@PathVariable("id") String id, Model model) {
+		System.out.println("blog cate2");
+		BlogVo blogVo = blogService.blogSelect(id);
+		model.addAttribute("blogVo", blogVo);
+		
+		
+		
+		
+		return "blog/admin/blog-admin-cate";
+	}
+	
+	
+	
+	
+	// 블로그 글쓰기 /////////////////////////////////////////////////
 	@RequestMapping("/{id}/admin/write")
 	public String write(@PathVariable("id") String id, Model model) {
 		System.out.println("blog Write");

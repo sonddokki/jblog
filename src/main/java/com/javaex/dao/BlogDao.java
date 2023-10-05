@@ -15,7 +15,8 @@ public class BlogDao {
 	private SqlSession sqlSession;
 	
 	public void blogInsert(BlogVo blogVo) {
-		System.out.println("다오 블로그생성");	
+		System.out.println("다오 블로그생성");
+		blogVo.setLogoFile("spring-logo.jpg");		
 		System.out.println(blogVo);
 		sqlSession.insert("blogInsert", blogVo);
 	}
