@@ -123,9 +123,9 @@ public class BlogService {
 		return blogDao.postListSelect(id, cate);
 	}
 	
-	public PostVo postSelectOne(String id) {
+	public PostVo postSelectOne(String id, int post) {
 		System.out.println("서비스 포스트 최근글");
-		return blogDao.postSelectOne(id);
+		return blogDao.postSelectOne(id, post);
 	}
 
 }

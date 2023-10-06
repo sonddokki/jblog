@@ -47,17 +47,23 @@
 		   SELECT    ctr.rn as num
 			        ,ctr.cateNo
 			        ,ctr.id
+			        ,(SELECT count(p.cateno)
+				      FROM  blog b,category c,post p
+				      where b.id = c.id
+				      and c.cateno = p.cateno
+				      and b.id = #{id}
+				      and ctr.cateNo = c.cateNo) post
 			        ,ctr.catename
 			        ,ctr.description
 			        ,ctr.regdate
 			FROM  (SELECT rownum rn
 			               ,ct.cateNo
-			               ,ct.id
+			               ,ct.id			               
 			               ,ct.catename
 			               ,ct.description
 			               ,ct.regdate    
 			        FROM  (SELECT   c.cateNo
-			                        ,c.id
+			                        ,c.id			                        
 			                        ,c.catename
 			                        ,c.description
 			                        ,c.regdate
@@ -109,6 +115,7 @@
 		  <![CDATA[        
 		    SELECT  p.postno
 			       ,p.cateno
+			       ,c.cateName
 			       ,p.posttitle
 			       ,p.postcontent
 			       ,to_char(p.regdate, 'yyyy/mm/dd') regDate
@@ -116,11 +123,22 @@
 			where b.id = c.id
 			and c.cateno = p.cateno
 			and b.id = #{id}
-			]]>	
+			and p.cateno = 
+			]]>								
+			
+			<if test="cate == 0">		
+				<![CDATA[ 		
+					(SELECT min(c.cateno) 
+	                 FROM  blog b,category c,post p
+	                 where b.id = c.id
+	                 and c.cateno = p.cateno
+	                 and b.id = #{id})
+				]]>
+			</if>		
 					
 			<if test="cate > 0">		
 				<![CDATA[ 		
-				and p.cateno = #{cate}
+					#{cate}
 				]]>
 			</if>
 			
@@ -128,14 +146,15 @@
 			ORDER BY p.postno desc
 		   ]]>
 		   
-	</select>
+	</select>	
 	
-	<!--
-	<select id="po" parameterType="map"
+	<!-- 포스트 하나 찾기 -->
+	<select id="postSelectOne" parameterType="map"
 	                            resultType="com.javaex.vo.PostVo" >  
 		  <![CDATA[        
 		    SELECT  p.postno
 			       ,p.cateno
+			       ,c.cateName
 			       ,p.posttitle
 			       ,p.postcontent
 			       ,to_char(p.regdate, 'yyyy/mm/dd') regDate
@@ -144,36 +163,25 @@
 			and c.cateno = p.cateno
 			and b.id = #{id}
 			and p.postno =
-			   <if test="#{cate} == 0">
-			                (SELECT MAX(p.postno) 
-			                 FROM  blog b,category c,post p
-			                 where b.id = c.id
-			                 and c.cateno = p.cateno
-			                 and b.id = #{id})
-			   </if>
-			   <if test="#{cate} > 0">
-			                #{cate}
-			   </if>	 ]]></select>	-->	
-	
-	<!-- 포스트 하나 찾기 -->
-	<select id="postSelectOne" parameterType="String"
-	                            resultType="com.javaex.vo.PostVo" >  
-		  <![CDATA[        
-		    SELECT  p.postno
-			       ,p.cateno
-			       ,p.posttitle
-			       ,p.postcontent
-			       ,to_char(p.regdate, 'yyyy/mm/dd') regDate
-			FROM  blog b,category c,post p
-			where b.id = c.id
-			and c.cateno = p.cateno
-			and b.id = #{id}
-			and p.postno = ( SELECT MAX(p.postno) 
-			                 FROM  blog b,category c,post p
-			                 where b.id = c.id
-			                 and c.cateno = p.cateno
-			                 and b.id = #{id})
-		 ]]>
+			]]>
+			
+			<if test="post == 0">		
+				<![CDATA[ 		
+					(SELECT MAX(p.postno) 
+	                 FROM  blog b,category c,post p
+	                 where b.id = c.id
+	                 and c.cateno = p.cateno
+	                 and b.id = #{id})
+	  	        ]]>
+			</if>	
+			
+			<if test="post > 0">		
+				<![CDATA[ 		
+					#{post}
+				]]>
+			</if>
+			                 
+		
 	</select>
 
 </mapper>

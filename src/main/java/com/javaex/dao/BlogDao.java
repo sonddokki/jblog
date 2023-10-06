@@ -68,9 +68,15 @@ public class BlogDao {
 		return sqlSession.selectList("postListSelect", postListMap);
 	}
 	
-	public PostVo postSelectOne(String id) {
+	public PostVo postSelectOne(String id, int post) {
 		System.out.println("다오 포스트 최근글");
-		return sqlSession.selectOne("postSelectOne", id);
+		
+		  Map<String, Object> PostVoMap = new HashMap<String, Object>();
+		  PostVoMap.put("id", id);
+		  PostVoMap.put("post", post);
+			
+		    System.out.println(PostVoMap);
+		return sqlSession.selectOne("postSelectOne", PostVoMap);
 	}
 	
 }

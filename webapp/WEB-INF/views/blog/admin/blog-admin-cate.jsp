@@ -95,15 +95,7 @@
 	    fetchList(); //ajax통신을 이용해서 데이타를 요청하고 + 그린다(render())
 		console.log("ready()요청후");
 	});
-	
-	//화면을 그리고 난후
-	$(window).load(function(){
-		console.log("load()");
-		//fetchList();	
-		console.log("load()요청후");
-	});
-
-	
+		
 	$("#btnAddCate").on("click", function(e) {
 		e.preventDefault(); 
 		console.log("카테고리추가버튼 클릭");		
@@ -219,7 +211,7 @@
 		str +='<tr id=t'+categoryVo.cateNo +'>';
 		str +='		<td>' + categoryVo.num + '</td>';
 		str +='		<td>' + categoryVo.cateName + '</td>';
-		str +='		<td>' + categoryVo.num + '</td>'; // 포스트수로 변경하기
+		str +='		<td>' + categoryVo.post + '</td>'; // 포스트수로 변경하기
 		str +='		<td>' + categoryVo.description + '</td>';
 		str +='		<td class="text-center"><img class="btnCateDel" data-no='+ categoryVo.cateNo +' src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>';
 		str +='</tr>';		

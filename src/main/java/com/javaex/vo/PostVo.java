@@ -4,20 +4,35 @@ public class PostVo {
 	
 	private int postNo;
 	private int cateNo;
+	private String cateName;	
 	private String postTitle;
 	private String postContent;	
 	private String regDate;
 	
 	public PostVo() {}
 	
-	public PostVo(int postNo, int cateNo, String postTitle, String postContent, String regDate) {
+	
+	
+	public PostVo(int postNo, int cateNo, String cateName, String postTitle, String postContent, String regDate) {
 		super();
 		this.postNo = postNo;
 		this.cateNo = cateNo;
+		this.cateName = cateName;
 		this.postTitle = postTitle;
 		this.postContent = postContent;
 		this.regDate = regDate;
 	}
+
+
+
+	public String getCateName() {
+		return cateName;
+	}
+
+	public void setCateName(String cateName) {
+		this.cateName = cateName;
+	}
+
 
 	public int getPostNo() {
 		return postNo;
@@ -61,9 +76,11 @@ public class PostVo {
 
 	@Override
 	public String toString() {
-		return "PostVo [postNo=" + postNo + ", cateNo=" + cateNo + ", postTitle=" + postTitle + ", postContent="
-				+ postContent + ", regDate=" + regDate + "]";
+		return "PostVo [postNo=" + postNo + ", cateNo=" + cateNo + ", cateName=" + cateName + ", postTitle=" + postTitle
+				+ ", postContent=" + postContent + ", regDate=" + regDate + "]";
 	}
+
+	
 	
 	
 
