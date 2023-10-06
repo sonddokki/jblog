@@ -86,4 +86,9 @@ public class BlogDao {
 			sqlSession.insert("cmtInsert", commentsVo);
 		}
 	
+		public List<CommentsVo> commentlist(int postNo) {
+			System.out.println("다오 코멘트 리스트");
+			return sqlSession.selectList("commentlist", postNo);
+		}
+		
 }

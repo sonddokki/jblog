@@ -74,7 +74,7 @@
 				</div>
 				-->
 				
-				<c:if test="${!(empty authUser)}">
+				
 				<!--코멘트 영역 -->
 				<div id="admin-comments" >
 					
@@ -85,14 +85,18 @@
 						<col style="width: 50px;">
 						<col>
 						<col style="width: 100px;">
-					</colgroup>
+					</colgroup>					
 					<thead>
+					
+					<c:if test="${!(empty authUser)}">
 						<tr>
 							<th>${authUser.userName}</th>							
 							<td><input id="commentTitle" type="text" name="comments" value=""></td>
 							<td><button class="btn_comments" type="submit">저장</button></td>
 							<input id="userNo" type="hidden" name="userNo" value="${authUser.userNo}">
 						</tr>
+					</c:if>	
+					
 					</thead>
 					
 					<tbody id="commentList">
@@ -102,7 +106,7 @@
 				</table>
 				
 				</div>
-				</c:if>
+				
 				
 				<div id="list">
 					<div id="listTitle" class="text-left"><strong>${postList[0].cateName}</strong></div>
@@ -138,20 +142,17 @@
 
 <script type="text/javascript">
 
+	//DOM이 완성되었을때 --> 그리기 직전
+	$(document).ready(function(){
+		console.log("ready()");
+	    fetchList(); //ajax통신을 이용해서 데이타를 요청하고 + 그린다(render())
+		console.log("ready()요청후");
+	});
+		
+
 	$(".btn_comments").on("click", function(e) {
 		e.preventDefault(); 
-		console.log("코멘트 등록버튼 클릭");	
-		
-		// 데이터 수집
-		let userNo = $("#userNo").val();
-		let commentUser = $('#comments th').html()
-		let postNo = $("#postNo").val();
-		let commentTitle = $("#commentTitle").val();
-		
-		
-		console.log(commentUser);	
-		console.log(postNo);
-		console.log(commentTitle);
+		console.log("코멘트 등록버튼 클릭");			
 		
 		let commentsVo = {
 				postNo: $("#postNo").val(),
@@ -172,7 +173,7 @@
 					console.log(result);
 					
 					//그리기
-					
+					document.location.reload(true);
 					
 					//초기화
 					$("#commentTitle").val("");
@@ -186,7 +187,61 @@
 	});
 
 
+	function fetchList(){	
+		
+		// 데이터 수집
+		let post = $("#postNo").val();
+		console.log(post);
+		
+		//서버로 부터 방명록 데이타만 받고 싶다 ajax요청
+		$.ajax({
+			url : "${pageContext.request.contextPath}/${blogVo.id}/admin/commentlist",
+			type : "post",
+			data: { postNo: post },
+			
+			dataType: "json",
+			success : function(commentlist){
+				/*성공시 처리해야될 코드 작성*/
+				//리스트받기
+				console.log(commentlist);
+				
+				for(let i=0; i<commentlist.length; i++){
+					render(commentlist[i], "up"); //그리기	
+				}
+				
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
 
+	}
+		
+		
+	//방명록 내용을 1개씩 그린다
+	function render(commentsVo, dir){
+		let str ='';
+		str +='<tr id=t'+commentsVo.cmtNo +'>';
+		str +='		<td>' + commentsVo.userName + '</td>';
+		str +='		<td>' + commentsVo.cmtContent + '</td>';
+		str +='		<td>' + commentsVo.regDate + '</td>';
+		str +='		<c:if test="${'+ commentsVo.userNo == authUser.userNo '}"> ';
+		str +='		<td class="text-center"><img class="btnCmtDel" data-no='+ commentsVo.cmtNo +' src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>';
+		str +='		</c:if> ';
+		str +='</tr>';		
+		
+		if(dir=="up"){
+			$("#commentList").prepend(str);
+			
+		}else if(dir=="down"){
+			$("#commentList").append(str);	
+		
+		}else {
+			consoel.log("잘못입력")
+		}
+		
+		
+	}
 
 
 </script>

@@ -135,5 +135,9 @@ public class BlogService {
 		blogDao.cmtInsert(commentsVo);
 	}
 	
+	public List<CommentsVo> commentlist(int postNo) {
+		System.out.println("서비스 코멘트 리스트");
+		return blogDao.commentlist(postNo);
+	}
 
 }

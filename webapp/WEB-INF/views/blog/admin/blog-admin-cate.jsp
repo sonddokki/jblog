@@ -161,21 +161,7 @@
 				console.error(status + " : " + error);
 			}				
 		});		
-		
-		//패스워드, no
-		//(event)=>
-		//console.log($(event.target));
-		
-		//let $this = $(this);
-		//let no = $this.data("no");
-		//console.log($this);
-		
-		//ajax 요청 db를지운다
-		//과제
-		
-		//화면에서 지운다
-		//$("#t"+no).remove();  < --------------------------- 이거 사용하기
-		
+				
 	});
 	
 	//ajax통신을 이용해서 데이타를 요청하고 + 그린다(render())

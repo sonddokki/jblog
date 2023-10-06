@@ -198,7 +198,19 @@
 		 ]]>
 	</insert>	
 	
-	
+	<select id="commentlist" parameterType="int" resultType="com.javaex.vo.CommentsVo" >  
+		  <![CDATA[        
+		    SELECT  c.cmtNo
+			       ,c.postNo
+			       ,c.userNo
+			       ,u.userName
+			       ,c.cmtContent
+			       ,to_char(c.regdate, 'yyyy/mm/dd') regDate
+			FROM  comments c, users u
+			where c.userNo = u.userNo
+			and c.postno = #{postNo}	   
+		 ]]>
+	</select>	
 
 </mapper>
 	

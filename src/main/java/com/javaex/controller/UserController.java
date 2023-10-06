@@ -42,7 +42,7 @@ public class UserController {
 	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
 	public String login(@ModelAttribute UserVo userVo, HttpSession session) {
 		System.out.println("login");
-		UserVo authUser = userService.userSelect(userVo);				
+		UserVo authUser = userService.userSelect(userVo);			
 		if (authUser != null) {
 			session.setAttribute("authUser", authUser);
 			System.out.println(authUser);

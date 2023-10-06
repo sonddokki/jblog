@@ -157,11 +157,19 @@ public class BlogController {
 	@RequestMapping("/{id}/admin/CommentInsert")
 	public CommentsVo CommentInsert(@RequestBody CommentsVo commentsVo) {
 		System.out.println("CommentInsert");		
-		System.out.println(commentsVo);
-		
-		blogService.cmtInsert(commentsVo);
-		
+		blogService.cmtInsert(commentsVo);		
 		return commentsVo;
+	}
+	
+	// 블로그 코멘트 리스트
+	@ResponseBody
+	@RequestMapping("/{id}/admin/commentlist")
+	public List<CommentsVo> commentlist(@RequestParam("postNo") int postNo) {
+		System.out.println("commentlist");
+		System.out.println(postNo);		
+		List<CommentsVo> commentlist = blogService.commentlist(postNo);
+		System.out.println(commentlist);				
+		return commentlist;
 	}
 
 }
