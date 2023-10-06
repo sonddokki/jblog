@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.javaex.service.BlogService;
 import com.javaex.vo.BlogVo;
 import com.javaex.vo.CategoryVo;
+import com.javaex.vo.PostVo;
 import com.javaex.vo.UserVo;
 
 @Controller
@@ -32,8 +34,19 @@ public class BlogController {
 		System.out.println("blogMain");
 		BlogVo blogVo = blogService.blogSelect(id);
 		model.addAttribute("blogVo", blogVo);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		return "blog/blog-main";
-	}
+	}	
 	
 	// 블로그 기본설정 /////////////////////////////////////////////////
 	@RequestMapping("/{id}/admin/basic")
@@ -93,23 +106,36 @@ public class BlogController {
 		System.out.println(cateNo);		
 		
 		CategoryVo categoryVo = new CategoryVo();
-		categoryVo.setCateNo(cateNo);
-		categoryVo.setId(authUser.getId());		
+		categoryVo.setId(authUser.getId());	
+		categoryVo.setCateNo(cateNo);	
 		System.out.println(categoryVo);
 		blogService.cateDelete(categoryVo);
 		
 		return categoryVo;
-	}
-	
-	
+	}	
 	
 	// 블로그 글쓰기 /////////////////////////////////////////////////
-	@RequestMapping("/{id}/admin/write")
-	public String write(@PathVariable("id") String id, Model model) {
+	@RequestMapping("/{id}/admin/writeFrom")
+	public String writeFrom(@PathVariable("id") String id, Model model,Model model2) {
 		System.out.println("blog Write");
 		BlogVo blogVo = blogService.blogSelect(id);
 		model.addAttribute("blogVo", blogVo);
+		List<CategoryVo> cateList = blogService.categoryList(id);
+		model2.addAttribute("cateList", cateList);
+		
 		return "blog/admin/blog-admin-write";
 	}
+	
+	@RequestMapping("/{id}/admin/write")
+	public String write(@ModelAttribute PostVo postVo) {
+		System.out.println("blog Write");
+		
+		System.out.println(postVo);
+		blogService.postInsert(postVo);
+		
+		return "redirect:/{id}/admin/writeFrom";
+	}
+	
+	
 
 }

@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.javaex.dao.BlogDao;
 import com.javaex.vo.BlogVo;
 import com.javaex.vo.CategoryVo;
+import com.javaex.vo.PostVo;
 
 @Service
 public class BlogService {
@@ -34,7 +35,7 @@ public class BlogService {
 
 	public void blogUpdate(MultipartFile logoFile, BlogVo blogVo) {
 		System.out.println("서비스 블로그 정보 업데이트 ");
-		System.out.println(blogVo);		
+		System.out.println(blogVo);
 		System.out.println(logoFile.isEmpty());
 
 		// 로고파일이 없으면 기존정보에 있던 로고파일을 가져와서 set 해주기
@@ -43,7 +44,7 @@ public class BlogService {
 			blogVo.setLogoFile(blogUser.getLogoFile());
 			blogDao.blogUpdate(blogVo);
 		} else {
-		//로고파일이 있으면 그대로 진행
+			// 로고파일이 있으면 그대로 진행
 			// 0.파일 경로
 			String saveDir = "C:\\\\javaStudy\\\\upload";
 
@@ -91,23 +92,30 @@ public class BlogService {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}	
+		}
 
 	}
-	
+
 	public List<CategoryVo> categoryList(String id) {
 		System.out.println("서비스 리스트");
 		return blogDao.categoryList(id);
 	}
-	
+
+	// 카테고리 /////////////////////////////////////////////
 	public void cateInsert(CategoryVo categoryVo) {
 		System.out.println("서비스 카테고리 등록");
 		blogDao.cateInsert(categoryVo);
 	}
-	
+
 	public void cateDelete(CategoryVo categoryVo) {
 		System.out.println("서비스 카테고리 삭제");
 		blogDao.cateDelete(categoryVo);
+	}
+
+	// 포스트 /////////////////////////////////////////////
+	public void postInsert(PostVo postVo) {
+		System.out.println("서비스 포스트 등록");
+		blogDao.postInsert(postVo);
 	}
 
 }

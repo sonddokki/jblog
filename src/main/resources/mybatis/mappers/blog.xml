@@ -85,6 +85,22 @@
 		 and cateNo = #{cateNo}
 		 ]]>
 	</delete>
+	
+	<!-- 포스트  -->
+	
+	<insert id="postInsert" parameterType="com.javaex.vo.PostVo">  
+		 <![CDATA[
+	     INSERT INTO post
+	     VALUES (seq_post_no.nextval
+	     		 ,#{cateNo}
+	             ,#{postTitle}
+	             ,#{postContent}
+	             ,SYSDATE )
+		 ]]>
+	</insert>
+	
+	
+	
 
 </mapper>
 	
