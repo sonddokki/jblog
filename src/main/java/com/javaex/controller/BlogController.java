@@ -155,12 +155,11 @@ public class BlogController {
 	// 블로그 코멘트 등록
 	@ResponseBody
 	@RequestMapping("/{id}/admin/CommentInsert")
-	public CommentsVo CommentInsert(CommentsVo commentsVo, HttpSession session) {
-		System.out.println("CommentInsert");
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		
-		
+	public CommentsVo CommentInsert(@RequestBody CommentsVo commentsVo) {
+		System.out.println("CommentInsert");		
 		System.out.println(commentsVo);
+		
+		blogService.cmtInsert(commentsVo);
 		
 		return commentsVo;
 	}

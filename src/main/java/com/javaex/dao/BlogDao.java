@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.javaex.vo.BlogVo;
 import com.javaex.vo.CategoryVo;
+import com.javaex.vo.CommentsVo;
 import com.javaex.vo.PostVo;
 
 @Repository
@@ -78,5 +79,11 @@ public class BlogDao {
 		    System.out.println(PostVoMap);
 		return sqlSession.selectOne("postSelectOne", PostVoMap);
 	}
+	
+	// 코멘트 /////////////////////////////////////////////
+		public void cmtInsert(CommentsVo commentsVo) {
+			System.out.println("다오 코멘트 등록");
+			sqlSession.insert("cmtInsert", commentsVo);
+		}
 	
 }

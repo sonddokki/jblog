@@ -52,6 +52,7 @@
 						<div id="postTitle" class="text-left"><strong>${postOne.postTitle}</strong></div>
 						<div id="postDate" class="text-left"><strong>${postOne.regDate}</strong></div>
 						<div id="postNick">${blogVo.userName}(${blogVo.id})님</div>
+						<input id="postNo" type="hidden" name="postNo" value="${postOne.postNo}">
 				</div>
 				<!-- //postBox -->
 			
@@ -87,9 +88,10 @@
 					</colgroup>
 					<thead>
 						<tr>
-							<th>${authUser.userName}</th>
+							<th>${authUser.userName}</th>							
 							<td><input id="commentTitle" type="text" name="comments" value=""></td>
 							<td><button class="btn_comments" type="submit">저장</button></td>
+							<input id="userNo" type="hidden" name="userNo" value="${authUser.userNo}">
 						</tr>
 					</thead>
 					
@@ -141,9 +143,45 @@
 		console.log("코멘트 등록버튼 클릭");	
 		
 		// 데이터 수집
+		let userNo = $("#userNo").val();
+		let commentUser = $('#comments th').html()
+		let postNo = $("#postNo").val();
 		let commentTitle = $("#commentTitle").val();
 		
-		console.log(commentTitle);		
+		
+		console.log(commentUser);	
+		console.log(postNo);
+		console.log(commentTitle);
+		
+		let commentsVo = {
+				postNo: $("#postNo").val(),
+				userNo: $("#userNo").val(),
+				userName: $('#comments th').html(),
+				cmtContent: $("#commentTitle").val()
+			}
+			console.log(commentsVo);		
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/${blogVo.id}/admin/CommentInsert",
+				type : "post",
+				contentType : "application/json",
+				data : JSON.stringify(commentsVo),
+				
+				dataType : "json",
+				success : function(result) {
+					console.log(result);
+					
+					//그리기
+					
+					
+					//초기화
+					$("#commentTitle").val("");
+					
+				},
+				error : function(XHR, status, error) {
+					console.error(status + " : " + error);
+				}				
+			});
 				
 	});
 

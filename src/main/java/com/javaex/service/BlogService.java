@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.javaex.dao.BlogDao;
 import com.javaex.vo.BlogVo;
 import com.javaex.vo.CategoryVo;
+import com.javaex.vo.CommentsVo;
 import com.javaex.vo.PostVo;
 
 @Service
@@ -127,5 +128,12 @@ public class BlogService {
 		System.out.println("서비스 포스트 최근글");
 		return blogDao.postSelectOne(id, post);
 	}
+	
+	// 코멘트 /////////////////////////////////////////////
+	public void cmtInsert(CommentsVo commentsVo) {
+		System.out.println("서비스 코멘트 등록");
+		blogDao.cmtInsert(commentsVo);
+	}
+	
 
 }

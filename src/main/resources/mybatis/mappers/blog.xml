@@ -183,6 +183,22 @@
 			                 
 		
 	</select>
+	
+	<!-- /////////////////////////////// 코멘트 ///////////////////////////////  -->
+	
+	<!-- 코멘트 등록 -->
+	<insert id="cmtInsert" parameterType="com.javaex.vo.CommentsVo">  
+		 <![CDATA[
+	     INSERT INTO comments
+	     VALUES (seq_comments_no.nextval
+	     		 ,#{postNo}
+	             ,#{userNo}
+	             ,#{cmtContent}
+	             ,SYSDATE )
+		 ]]>
+	</insert>	
+	
+	
 
 </mapper>
 	
