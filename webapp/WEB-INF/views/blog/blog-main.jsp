@@ -218,17 +218,24 @@
 	}
 		
 		
-	//방명록 내용을 1개씩 그린다
+	//코멘트 내용을 1개씩 그린다
+	// if문을 str안에 넣으면 안에서 이미 비교해버리기때문에 그려지지가 않음
+	// if문을 여기서 바로 작동해야함
 	function render(commentsVo, dir){
+		
+		// 로그인하지 않을시 userNo 존재 자체가 뜨지 않기 때문에 앞에 0을 넣어준다.
+		let userNo = 0${authUser.userNo};
+		
 		let str ='';
-		str +='<tr id=t'+commentsVo.cmtNo +'>';
-		str +='		<td>' + commentsVo.userName + '</td>';
-		str +='		<td>' + commentsVo.cmtContent + '</td>';
-		str +='		<td>' + commentsVo.regDate + '</td>';
-		str +='		<c:if test="${'+ commentsVo.userNo == authUser.userNo '}"> ';
-		str +='		<td class="text-center"><img class="btnCmtDel" data-no='+ commentsVo.cmtNo +' src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>';
-		str +='		</c:if> ';
-		str +='</tr>';		
+		str +=' <tr id=t'+commentsVo.cmtNo +'> ';
+		str +='		<td>' + commentsVo.userName + '</td> ';
+		str +='		<td>' + commentsVo.cmtContent + '</td> ';
+		str +='		<td>' + commentsVo.regDate + '</td> ';		
+		// 비로그인시 0과 비교하게 되며 로그인시 0이 앞에 붙은 userNo로 작동하기 때문에 정수끼리 비교가 가능하다
+		if (userNo == commentsVo.userNo) {
+		str +='		<td class="text-center"><img class="btnCmtDel" data-no='+ commentsVo.cmtNo +' src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td> ';
+		}		
+		str +=' </tr> ';		
 		
 		if(dir=="up"){
 			$("#commentList").prepend(str);
