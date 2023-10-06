@@ -97,7 +97,7 @@ public class BlogService {
 	}
 
 	public List<CategoryVo> categoryList(String id) {
-		System.out.println("서비스 리스트");
+		System.out.println("서비스 카테고리 리스트");
 		return blogDao.categoryList(id);
 	}
 
@@ -116,6 +116,16 @@ public class BlogService {
 	public void postInsert(PostVo postVo) {
 		System.out.println("서비스 포스트 등록");
 		blogDao.postInsert(postVo);
+	}
+	
+	public List<PostVo> postListSelect(String id, int cate) {
+		System.out.println("서비스 포스트 리스트");
+		return blogDao.postListSelect(id, cate);
+	}
+	
+	public PostVo postSelectOne(String id) {
+		System.out.println("서비스 포스트 최근글");
+		return blogDao.postSelectOne(id);
 	}
 
 }

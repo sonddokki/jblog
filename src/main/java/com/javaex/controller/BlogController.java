@@ -30,20 +30,31 @@ public class BlogController {
 	
 	// 블로그 메인 /////////////////////////////////////////////////
 	@RequestMapping("/{id}")
-	public String blogMain(@PathVariable("id") String id, Model model) {
-		System.out.println("blogMain");
+	public String blogMain(@PathVariable("id") String id
+						  ,@RequestParam(value = "cate" ,required = false, defaultValue = "0") int cate 
+						  ,@RequestParam(value = "post" ,required = false, defaultValue = "0") int post
+			, Model model, Model cateL, Model postL, Model postOne) {
+		
+		System.out.println("블로그 메인");
+		
+		System.out.println("메인 기본 카테고리 "+cate);
+		System.out.println("메인 기본 포스트 "+post);
+		
+		// id로 블로그 이름,사진 가져오기
 		BlogVo blogVo = blogService.blogSelect(id);
-		model.addAttribute("blogVo", blogVo);
+		model.addAttribute("blogVo", blogVo);		
 		
+		// id로 카테고리 가져오기
+		List<CategoryVo> cateList = blogService.categoryList(id);
+		cateL.addAttribute("cateList",cateList);
 		
+		// id로 포스트 가져오기
+		List<PostVo> postList = blogService.postListSelect(id, cate);	 // cate 넣기
+		postL.addAttribute("postList",postList);
 		
-		
-		
-		
-		
-		
-		
-		
+		// id로 포스트 최근글가져오기
+		PostVo postVo = blogService.postSelectOne(id); // post 넣기	
+		postOne.addAttribute("postOne",postVo);
 		
 		return "blog/blog-main";
 	}	

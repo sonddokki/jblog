@@ -5,6 +5,7 @@
 
 	<!-- 쿼리문 작성 -->
 	
+	<!-- 블로그 생성  -->
 	<insert id="blogInsert" parameterType="com.javaex.vo.BlogVo">  
 		 <![CDATA[
 	     INSERT INTO blog
@@ -14,6 +15,7 @@
 		 ]]>
 	</insert>
 	
+	<!-- 블로그 정보 불러오기  -->
 	<select id="blogSelect" parameterType="String"
 	                        resultType="com.javaex.vo.BlogVo" >  
 		  <![CDATA[        
@@ -27,6 +29,7 @@
 		 ]]>
 	</select>
 
+	<!-- 블로그 정보 수정  -->
 	<update id="blogUpdate" parameterType="com.javaex.vo.BlogVo">  
 		  <![CDATA[        
 		    UPDATE blog
@@ -36,8 +39,9 @@
 		 ]]>
 	</update>
 	
-	<!-- 카테고리  -->
+	<!-- /////////////////////////////// 카테고리 ///////////////////////////////  -->
 	
+	<!-- 카테고리 리스트  -->
 	<select id="categoryList" parameterType="String" resultType="com.javaex.vo.CategoryVo" >  
 		  <![CDATA[        
 		   SELECT    ctr.rn as num
@@ -62,11 +66,9 @@
 			                and b.id = #{id}
 			                ORDER BY c.cateno asc) ct) ctr
 		 ]]>
-	</select>
+	</select>	
 	
-	
-	
-	
+	<!-- 카테고리 등록 -->
 	<insert id="cateInsert" parameterType="com.javaex.vo.CategoryVo">  
 		 <![CDATA[
 	     INSERT INTO category
@@ -78,6 +80,7 @@
 		 ]]>
 	</insert>
 	
+	<!-- 카테고리 삭제 -->
 	<delete id="cateDelete" parameterType="com.javaex.vo.CategoryVo">  
 		 <![CDATA[
 	     DELETE FROM category 
@@ -86,8 +89,9 @@
 		 ]]>
 	</delete>
 	
-	<!-- 포스트  -->
+	<!-- /////////////////////////////// 포스트 ///////////////////////////////  -->
 	
+	<!-- 포스트 등록 -->
 	<insert id="postInsert" parameterType="com.javaex.vo.PostVo">  
 		 <![CDATA[
 	     INSERT INTO post
@@ -97,10 +101,80 @@
 	             ,#{postContent}
 	             ,SYSDATE )
 		 ]]>
-	</insert>
+	</insert>	
 	
+	<!-- 포스트 리스트 찾기 -->
+	<select id="postListSelect" parameterType="map"
+	                            resultType="com.javaex.vo.PostVo" >  
+		  <![CDATA[        
+		    SELECT  p.postno
+			       ,p.cateno
+			       ,p.posttitle
+			       ,p.postcontent
+			       ,to_char(p.regdate, 'yyyy/mm/dd') regDate
+			FROM  blog b,category c,post p
+			where b.id = c.id
+			and c.cateno = p.cateno
+			and b.id = #{id}
+			]]>	
+					
+			<if test="cate > 0">		
+				<![CDATA[ 		
+				and p.cateno = #{cate}
+				]]>
+			</if>
+			
+			<![CDATA[
+			ORDER BY p.postno desc
+		   ]]>
+		   
+	</select>
 	
+	<!--
+	<select id="po" parameterType="map"
+	                            resultType="com.javaex.vo.PostVo" >  
+		  <![CDATA[        
+		    SELECT  p.postno
+			       ,p.cateno
+			       ,p.posttitle
+			       ,p.postcontent
+			       ,to_char(p.regdate, 'yyyy/mm/dd') regDate
+			FROM  blog b,category c,post p
+			where b.id = c.id
+			and c.cateno = p.cateno
+			and b.id = #{id}
+			and p.postno =
+			   <if test="#{cate} == 0">
+			                (SELECT MAX(p.postno) 
+			                 FROM  blog b,category c,post p
+			                 where b.id = c.id
+			                 and c.cateno = p.cateno
+			                 and b.id = #{id})
+			   </if>
+			   <if test="#{cate} > 0">
+			                #{cate}
+			   </if>	 ]]></select>	-->	
 	
+	<!-- 포스트 하나 찾기 -->
+	<select id="postSelectOne" parameterType="String"
+	                            resultType="com.javaex.vo.PostVo" >  
+		  <![CDATA[        
+		    SELECT  p.postno
+			       ,p.cateno
+			       ,p.posttitle
+			       ,p.postcontent
+			       ,to_char(p.regdate, 'yyyy/mm/dd') regDate
+			FROM  blog b,category c,post p
+			where b.id = c.id
+			and c.cateno = p.cateno
+			and b.id = #{id}
+			and p.postno = ( SELECT MAX(p.postno) 
+			                 FROM  blog b,category c,post p
+			                 where b.id = c.id
+			                 and c.cateno = p.cateno
+			                 and b.id = #{id})
+		 ]]>
+	</select>
 
 </mapper>
 	
