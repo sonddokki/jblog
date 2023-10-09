@@ -59,24 +59,18 @@ public class BlogDao {
 	}
 
 	public List<PostVo> postListSelect(String id, int cate) {
-		System.out.println("다오 포스트 리스트");
-		
+		System.out.println("다오 포스트 리스트");		
 	    Map<String, Object> postListMap = new HashMap<String, Object>();
 	    postListMap.put("id", id);
-	    postListMap.put("cate", cate);
-		
-	    System.out.println(postListMap);
+	    postListMap.put("cate", cate);		
 		return sqlSession.selectList("postListSelect", postListMap);
 	}
 	
 	public PostVo postSelectOne(String id, int post) {
-		System.out.println("다오 포스트 최근글");
-		
+		System.out.println("다오 포스트 최근글");		
 		  Map<String, Object> PostVoMap = new HashMap<String, Object>();
 		  PostVoMap.put("id", id);
-		  PostVoMap.put("post", post);
-			
-		    System.out.println(PostVoMap);
+		  PostVoMap.put("post", post);	
 		return sqlSession.selectOne("postSelectOne", PostVoMap);
 	}
 	
@@ -89,6 +83,11 @@ public class BlogDao {
 		public List<CommentsVo> commentlist(int postNo) {
 			System.out.println("다오 코멘트 리스트");
 			return sqlSession.selectList("commentlist", postNo);
+		}
+		
+		public void cmtDelete(CommentsVo commentsVo) {
+			System.out.println("다오 코멘트 삭제");				
+			sqlSession.delete("cmtDelete", commentsVo);
 		}
 		
 }

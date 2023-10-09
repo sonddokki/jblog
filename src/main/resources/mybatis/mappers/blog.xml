@@ -198,6 +198,7 @@
 		 ]]>
 	</insert>	
 	
+	<!-- 코멘트 리스트 -->
 	<select id="commentlist" parameterType="int" resultType="com.javaex.vo.CommentsVo" >  
 		  <![CDATA[        
 		    SELECT  c.cmtNo
@@ -211,6 +212,15 @@
 			and c.postno = #{postNo}	   
 		 ]]>
 	</select>	
+	
+	<!-- 코멘트 삭제 -->
+	<delete id="cmtDelete" parameterType="com.javaex.vo.CommentsVo">  
+		 <![CDATA[
+	     DELETE FROM comments 
+	     WHERE userNo = #{userNo}
+		 and cmtNo = #{cmtNo}
+		 ]]>
+	</delete>
 
 </mapper>
 	

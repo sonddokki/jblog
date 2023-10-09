@@ -119,8 +119,14 @@ public class BlogService {
 		blogDao.postInsert(postVo);
 	}
 	
-	public List<PostVo> postListSelect(String id, int cate) {
+	public List<PostVo> postListSelect(String id, int cate, int postPage) {
 		System.out.println("서비스 포스트 리스트");
+		
+		
+		
+		
+		
+		
 		return blogDao.postListSelect(id, cate);
 	}
 	
@@ -138,6 +144,11 @@ public class BlogService {
 	public List<CommentsVo> commentlist(int postNo) {
 		System.out.println("서비스 코멘트 리스트");
 		return blogDao.commentlist(postNo);
+	}
+	
+	public void cmtDelete(CommentsVo commentsVo) {
+		System.out.println("서비스 코멘트 삭제");
+		blogDao.cmtDelete(commentsVo);
 	}
 
 }

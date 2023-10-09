@@ -33,9 +33,9 @@ public class BlogController {
 	@RequestMapping("/{id}")
 	public String blogMain(@PathVariable("id") String id,
 			@RequestParam(value = "cate", required = false, defaultValue = "0") int cate,
-			@RequestParam(value = "post", required = false, defaultValue = "0") int post, Model model, Model cateL,
-			Model postL, Model postOne) {
-
+			@RequestParam(value = "post", required = false, defaultValue = "0") int post,
+			@RequestParam(value = "postPage", required = false, defaultValue = "1") int postPage, 
+			Model model, Model cateL, Model postL, Model postOne) {
 		System.out.println("블로그 메인");
 
 		System.out.println("메인 기본 카테고리 " + cate);
@@ -50,7 +50,7 @@ public class BlogController {
 		cateL.addAttribute("cateList", cateList);
 
 		// id로 포스트 가져오기
-		List<PostVo> postList = blogService.postListSelect(id, cate); // cate 넣기
+		List<PostVo> postList = blogService.postListSelect(id, cate, postPage); // cate 넣기
 		System.out.println(postList);
 		postL.addAttribute("postList", postList);
 
@@ -95,9 +95,7 @@ public class BlogController {
 	@RequestMapping("/{id}/admin/list")
 	public List<CategoryVo> list(@PathVariable("id") String id) {
 		System.out.println("blog list");
-		System.out.println(id);
 		List<CategoryVo> categoryList = blogService.categoryList(id);
-		System.out.println(categoryList);
 		return categoryList;
 	}
 
@@ -108,7 +106,6 @@ public class BlogController {
 		System.out.println("blog cateInsert");
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		categoryVo.setId(authUser.getId());
-		System.out.println(categoryVo);
 		blogService.cateInsert(categoryVo);
 		return categoryVo;
 	}
@@ -116,17 +113,13 @@ public class BlogController {
 	// 블로그 카테고리 삭제
 	@ResponseBody
 	@RequestMapping("/{id}/admin/delete")
-	public CategoryVo cateDelete(@RequestBody int cateNo, HttpSession session) {
+	public CategoryVo cateDelete(@RequestBody int cateNo, HttpSession session, CategoryVo categoryVo) {
 		System.out.println("blog cateDelete");
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		System.out.println(cateNo);
-
-		CategoryVo categoryVo = new CategoryVo();
 		categoryVo.setId(authUser.getId());
 		categoryVo.setCateNo(cateNo);
 		System.out.println(categoryVo);
 		blogService.cateDelete(categoryVo);
-
 		return categoryVo;
 	}
 
@@ -138,7 +131,6 @@ public class BlogController {
 		model.addAttribute("blogVo", blogVo);
 		List<CategoryVo> cateList = blogService.categoryList(id);
 		model2.addAttribute("cateList", cateList);
-
 		return "blog/admin/blog-admin-write";
 	}
 
@@ -148,28 +140,37 @@ public class BlogController {
 
 		System.out.println(postVo);
 		blogService.postInsert(postVo);
-
 		return "redirect:/{id}/admin/writeFrom";
 	}
 
 	// 블로그 코멘트 등록
 	@ResponseBody
-	@RequestMapping("/{id}/admin/CommentInsert")
-	public CommentsVo CommentInsert(@RequestBody CommentsVo commentsVo) {
-		System.out.println("CommentInsert");		
-		blogService.cmtInsert(commentsVo);		
+	@RequestMapping("/{id}/admin/commentInsert")
+	public CommentsVo commentInsert(@RequestBody CommentsVo commentsVo) {
+		System.out.println("commentInsert");
+		blogService.cmtInsert(commentsVo);
 		return commentsVo;
 	}
-	
+
 	// 블로그 코멘트 리스트
 	@ResponseBody
 	@RequestMapping("/{id}/admin/commentlist")
 	public List<CommentsVo> commentlist(@RequestParam("postNo") int postNo) {
 		System.out.println("commentlist");
-		System.out.println(postNo);		
 		List<CommentsVo> commentlist = blogService.commentlist(postNo);
-		System.out.println(commentlist);				
 		return commentlist;
+	}
+
+	// 블로그 코멘트 삭제
+	@ResponseBody
+	@RequestMapping("/{id}/admin/commentDelete")
+	public CommentsVo commentdelete(@RequestBody int cmtNo, HttpSession session, CommentsVo commentsVo) {
+		System.out.println("commentDelete");
+		UserVo authUser = (UserVo) session.getAttribute("authUser");				
+		commentsVo.setUserNo(authUser.getUserNo());
+		commentsVo.setCmtNo(cmtNo);	
+		blogService.cmtDelete(commentsVo);
+		return commentsVo;
 	}
 
 }

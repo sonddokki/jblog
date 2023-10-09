@@ -163,7 +163,7 @@
 			console.log(commentsVo);		
 			
 			$.ajax({
-				url : "${pageContext.request.contextPath}/${blogVo.id}/admin/CommentInsert",
+				url : "${pageContext.request.contextPath}/${blogVo.id}/admin/commentInsert",
 				type : "post",
 				contentType : "application/json",
 				data : JSON.stringify(commentsVo),
@@ -249,6 +249,39 @@
 		
 		
 	}
+	
+	//삭제버튼 눌렀을때
+	$("#commentList").on("click", ".btnCmtDel", function(){
+		console.log("삭제버튼 클릭");
+		
+		let $this = $(this);		
+		console.log($this);
+		
+		let cmtNo = $this.data("no");		
+		console.log(cmtNo);
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/${blogVo.id}/admin/commentDelete",
+			type : "post",
+			contentType : "application/json",
+			data : JSON.stringify(cmtNo),
+			
+			dataType : "json",
+			success : function(result) {
+				/*성공시 처리해야될 코드 작성*/	
+				console.log(result);
+				
+				//그리기
+				document.location.reload(true); // 카테고리 번호순서를 리셋하려면 결국 리로드 해줘야함
+				//$("#t"+cateNo).remove(); // 바로 화면에서만 지우면 중간번호가 생략될 수 있음
+				
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}				
+		});		
+				
+	});
 
 
 </script>
